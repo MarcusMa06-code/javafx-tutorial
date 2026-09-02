@@ -1,9 +1,12 @@
 package seedu.duke;
 
+import java.io.IOException;
 import java.util.Collections;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -16,22 +19,24 @@ import javafx.scene.layout.HBox;
  */
 public class DialogBox extends HBox {
 
-    /**
-     * Creates a dialog box with the specified message and avatar.
-     *
-     * @param text message to display.
-     * @param image avatar to display alongside the message.
-     */
-    public DialogBox(String text, Image image) {
-        Label messageLabel = new Label(text);
-        ImageView displayPicture = new ImageView(image);
+    @FXML
+    private Label dialog;
+    @FXML
+    private ImageView displayPicture;
 
-        messageLabel.setWrapText(true);
-        displayPicture.setFitWidth(100.0);
-        displayPicture.setFitHeight(100.0);
-        setAlignment(Pos.TOP_RIGHT);
+    private DialogBox(String text, Image image) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(
+                    MainWindow.class.getResource("/view/DialogBox.fxml"));
+            fxmlLoader.setController(this);
+            fxmlLoader.setRoot(this);
+            fxmlLoader.load();
+        } catch (IOException exception) {
+            throw new IllegalStateException("Unable to load the dialog box view.", exception);
+        }
 
-        getChildren().addAll(messageLabel, displayPicture);
+        dialog.setText(text);
+        displayPicture.setImage(image);
     }
 
     /**
