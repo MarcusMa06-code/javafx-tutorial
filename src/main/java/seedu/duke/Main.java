@@ -19,6 +19,9 @@ public class Main extends Application {
 
     private final Image userImage = new Image(
             getClass().getResourceAsStream("/images/DaUser.png"));
+    private final Image dukeImage = new Image(
+            getClass().getResourceAsStream("/images/DaDuke.png"));
+    private final Duke duke = new Duke();
     private ScrollPane scrollPane;
     private VBox dialogContainer;
     private TextField userInput;
@@ -72,7 +75,11 @@ public class Main extends Application {
      * Appends the user's message to the conversation and clears the input field.
      */
     private void handleUserInput() {
-        dialogContainer.getChildren().add(new DialogBox(userInput.getText(), userImage));
+        String userText = userInput.getText();
+        String dukeText = duke.getResponse(userText);
+        dialogContainer.getChildren().addAll(
+                new DialogBox(userText, userImage),
+                new DialogBox(dukeText, dukeImage));
         userInput.clear();
     }
 }
