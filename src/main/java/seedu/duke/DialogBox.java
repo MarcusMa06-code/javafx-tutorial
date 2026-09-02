@@ -1,5 +1,6 @@
 package seedu.duke;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,6 +20,12 @@ public class DialogBox extends HBox {
     public DialogBox(String text, Image image) {
         Label messageLabel = new Label(text);
         ImageView displayPicture = new ImageView(image);
+
+        messageLabel.setWrapText(true);
+        displayPicture.setFitWidth(100.0);
+        displayPicture.setFitHeight(100.0);
+        setAlignment(Pos.TOP_RIGHT);
+
         getChildren().addAll(messageLabel, displayPicture);
     }
 }
