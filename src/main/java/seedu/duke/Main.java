@@ -19,16 +19,19 @@ public class Main extends Application {
 
     private final Image userImage = new Image(
             getClass().getResourceAsStream("/images/DaUser.png"));
+    private ScrollPane scrollPane;
+    private VBox dialogContainer;
+    private TextField userInput;
+    private Button sendButton;
 
     @Override
     public void start(Stage stage) {
-        ScrollPane scrollPane = new ScrollPane();
-        VBox dialogContainer = new VBox();
+        scrollPane = new ScrollPane();
+        dialogContainer = new VBox();
         scrollPane.setContent(dialogContainer);
 
-        TextField userInput = new TextField();
-        Button sendButton = new Button("Send");
-        dialogContainer.getChildren().add(new DialogBox("Hello!", userImage));
+        userInput = new TextField();
+        sendButton = new Button("Send");
 
         AnchorPane mainLayout = new AnchorPane();
         mainLayout.getChildren().addAll(scrollPane, userInput, sendButton);
@@ -58,6 +61,18 @@ public class Main extends Application {
         AnchorPane.setLeftAnchor(userInput, 1.0);
         AnchorPane.setBottomAnchor(userInput, 1.0);
 
+        sendButton.setOnMouseClicked(event -> handleUserInput());
+        userInput.setOnAction(event -> handleUserInput());
+        dialogContainer.heightProperty().addListener(observable -> scrollPane.setVvalue(1.0));
+
         stage.show();
+    }
+
+    /**
+     * Appends the user's message to the conversation and clears the input field.
+     */
+    private void handleUserInput() {
+        dialogContainer.getChildren().add(new DialogBox(userInput.getText(), userImage));
+        userInput.clear();
     }
 }
